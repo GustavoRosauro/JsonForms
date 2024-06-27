@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { JsonForms } from '@jsonforms/react';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -9,8 +9,7 @@ import {
 } from '@jsonforms/material-renderers';
 import RatingControl from './RatingControl';
 import ratingControlTester from '../ratingControlTester';
-import schema from '../schema.json';
-import uischema from '../uischema.json';
+import { JsonSchema, UISchemaElement } from '@jsonforms/core';
 
 const classes = {
   container: {
@@ -53,8 +52,23 @@ const renderers = [
 ];
 
 export const JsonFormsDemo: FC = () => {
+
   const [data, setData] = useState<object>(initialData);
   const stringifiedData = useMemo(() => JSON.stringify(data, null, 2), [data]);
+  const [schema, setSchema] = useState<JsonSchema>();
+  const [uischema, setUischema] = useState<UISchemaElement>();
+
+  useEffect(() => {
+    fetch('http://52.169.92.217:3000/data')
+    .then(res => res.json())
+    .then(res => setSchema(res[0].data));
+
+    fetch('http://52.169.92.217:3000/data/ui')
+    .then(res => res.json())
+    .then(res => {
+      setUischema(res[0].data)
+    });
+  },[]);
 
   const clearData = () => {
     setData({});
