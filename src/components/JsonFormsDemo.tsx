@@ -59,11 +59,11 @@ export const JsonFormsDemo: FC = () => {
   const [uischema, setUischema] = useState<UISchemaElement>();
 
   useEffect(() => {
-    fetch('http://52.169.92.217:3000/data')
+    fetch('/data')
     .then(res => res.json())
     .then(res => setSchema(res[0].data));
 
-    fetch('http://52.169.92.217:3000/data/ui')
+    fetch('/data/ui')
     .then(res => res.json())
     .then(res => {
       setUischema(res[0].data)
