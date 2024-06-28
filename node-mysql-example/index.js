@@ -52,6 +52,29 @@ app.get('/data/ui', (req,res)=>{
    })
 })
 
+app.get('/data/info', (req,res)=>{
+    const sql = 'select * from initial_date';
+    db.query(sql, (err, results) => {
+        if(err){
+       return res.status(500).send(err);
+        }
+        const data = results.map(row => ({
+         id: row.id, 
+         data: JSON.parse(row.data)
+        }));
+        res.json(data);
+    })
+ })
+
+app.put('data/:id', (req,res) =>{
+    const id = req.params,id;
+    const newData = req.body.data;
+
+    if(!newData){
+        return res.status(400).send({error: 'No data Provided'});
+    }
+})
+
 app.listen(port, '0.0.0.0', () => {
     console.log(`0.0.0.0 port ${port}`)
 })

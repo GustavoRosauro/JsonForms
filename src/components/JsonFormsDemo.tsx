@@ -10,6 +10,7 @@ import {
 import RatingControl from './RatingControl';
 import ratingControlTester from '../ratingControlTester';
 import { JsonSchema, UISchemaElement } from '@jsonforms/core';
+import axios from 'axios';
 
 const classes = {
   container: {
@@ -68,7 +69,16 @@ export const JsonFormsDemo: FC = () => {
     .then(res => {
       setUischema(res[0].data)
     });
+
+    fetch('/data/info')
+    .then(res => res.json())
+    .then(res => (res[0].data))
   },[]);
+
+  const saveData = async () =>{
+    await axios.put('data/1', {data});
+    window.location.reload();
+  }
 
   const clearData = () => {
     setData({});
@@ -105,6 +115,13 @@ export const JsonFormsDemo: FC = () => {
             onChange={({ data }) => setData(data)}
           />
         </div>
+        <Button
+        style={classes.resetButton}
+        color='success'
+        variant='contained'
+        onClick={saveData}>
+          Save
+        </Button>
       </Grid>
     </Grid>
   );
