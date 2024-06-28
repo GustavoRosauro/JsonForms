@@ -67,13 +67,25 @@ app.get('/data/info', (req,res)=>{
  })
 
 app.put('data/:id', (req,res) =>{
-    const id = req.params,id;
+    const id = req.params.id;
     const newData = req.body.data;
 
     if(!newData){
         return res.status(400).send({error: 'No data Provided'});
     }
-})
+
+    const sql = 'UPDATE initial_date set data = ? where id = ?';
+
+    db.query(sql, [JSON.stringify(newData), id], (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).send({ error: 'Item not found' });
+        }
+        res.send({ message: 'Item updated successfully' });
+    });
+});
 
 app.listen(port, '0.0.0.0', () => {
     console.log(`0.0.0.0 port ${port}`)
