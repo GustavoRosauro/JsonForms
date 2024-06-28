@@ -66,7 +66,7 @@ app.get('/data/info', (req,res)=>{
     })
  })
 
-app.put('data/:id', (req,res) =>{
+app.put('/data/:id', (req,res) =>{
     const id = req.params.id;
     const newData = req.body.data;
 
