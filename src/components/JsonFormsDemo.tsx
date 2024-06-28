@@ -72,7 +72,7 @@ export const JsonFormsDemo: FC = () => {
 
     fetch('/data/info')
     .then(res => res.json())
-    .then(res => (res[0].data))
+    .then(res => setData(res[0].data))
   },[]);
 
   const saveData = async () =>{
