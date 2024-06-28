@@ -76,7 +76,7 @@ export const JsonFormsDemo: FC = () => {
   },[]);
 
   const saveData = async () =>{
-    await axios.put('data/1', {data});
+    await axios.put('data/1', JSON.stringify(data));
     window.location.reload();
   }
 
